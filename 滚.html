@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>滚动式---轮播</title>
+    <script src="js/jquery-3.0.0.js"></script>
+    <script>
+        $(function () {
+            /*1.父元素来写*/
+            //父元素动画移动
+            //定义行走的变量
+            var count = 0;
+            var times;
+            $(".banner_list").eq(0).css("backgroundColor", "blue");
+            showTimes();
+            //鼠标进入block  停止计时器
+            $(".block").mouseenter(function () {
+                clearInterval(times);
+                //鼠标进入容器  left  right  淡出
+                $(".leftblock,.rightblock").stop().fadeIn(500);
+            }).mouseleave(function () {
+                showTimes();
+                $(".leftblock,.rightblock").stop().fadeOut(500);
+            });
+            //鼠标进入点   当前点变色   显示当前图片
+            $(".banner_list").each(function (index) {
+                $(this).hover(function () {
+                    $(".banner_list").css("backgroundColor", "");
+                    $(this).css("backgroundColor", "blue");
+                    //在显示当前图片
+                    $(".ul_list").stop().animate({
+                        "marginLeft": (-1000 * index) + "px"
+                    }, 500);
+                    //保持动画统一
+                    count = index;
+                }, function () {
+
+                });
+            });
+            //点击左右两边按钮
+            $(".leftblock,.rightblock").bind("click", left_right_btn);
+            function left_right_btn() {
+                var obj = $(this);
+                obj.unbind("click");
+                if ($(this).is(".leftblock")) {
+                    imagelun(obj);
+                }
+                else {
+                    count--;
+                    if (count < 0) {
+                        count = 5;
+                        $(".ul_list").css("marginLeft", "-6000px");
+                    }
+                    $(".ul_list").animate({
+                        "marginLeft": (-1000 * count) + "px"
+                    }, 1000, function () {
+                        $(".banner_list").css("backgroundColor", "");
+                        $(".banner_list").eq(count).css("backgroundColor", "blue");
+                        //再次绑定click   和回调函数
+                        obj.bind("click", left_right_btn);
+                    });
+                }
+            }
+
+            function showTimes() {
+                times = setInterval(function () {
+                    imagelun();
+                }, 2000);
+            }
+
+            function imagelun(txt) {
+                count++;
+                $(".ul_list").animate({
+                    "marginLeft": (-1000 * count) + "px"
+                }, 1000, function () {
+                    //执行完成动画之后  准备跳
+                    if (count > 5) {
+                        $(this).css("marginLeft", "0px");
+                        count = 0;
+                    }
+                    //控制颜色进行切换
+                    $(".banner_list").css("backgroundColor", "");
+                    $(".banner_list").eq(count).css("backgroundColor", "blue");
+                    //在动画执行完成之后  再次绑定click  和回调函数
+                    if (txt != undefined)
+                        txt.bind("click", left_right_btn);
+                });
+            }
+        });
+    </script>
+    <style>
+        .block {
+            width: 1000px;
+            overflow: hidden;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .ul_list {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 7000px;
+        }
+
+        .li_list {
+            list-style: none;
+            width: 1000px;
+            float: left;
+        }
+
+        .banner {
+            position: absolute;
+            width: 180px;
+            left: 430px;
+            bottom: 4px;
+        }
+
+        .banner > .banner_list {
+            width: 10px;
+            height: 10px;
+            border: 3px solid #f8f1ff;
+            float: left;
+            margin-left: 5px;
+        }
+
+        .leftblock {
+            position: absolute;
+            left: 0;
+            width: 150px;
+            height: 500px;
+            display: none;
+            background: linear-gradient(90deg, white, rgba(255, 255, 255, 0));
+        }
+
+        .rightblock {
+            position: absolute;
+            right: 0;
+            width: 150px;
+            height: 500px;
+            display: none;
+            background: linear-gradient(-90deg, white, rgba(255, 255, 255, 0));
+        }
+    </style>
+</head>
+<body>
+<div class="block">
+    <div class="leftblock"></div>
+    <div class="rightblock"></div>
+    <div class="banner">
+        <div class="banner_list"></div>
+        <div class="banner_list"></div>
+        <div class="banner_list"></div>
+        <div class="banner_list"></div>
+        <div class="banner_list"></div>
+        <div class="banner_list"></div>
+    </div>
+    <ul class="ul_list">
+        <li class="li_list"><img src="./image/visual_slide01.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide02.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide03.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide04.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide05.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide06.jpg" alt=""/></li>
+        <li class="li_list"><img src="./image/visual_slide01.jpg" alt=""/></li>
+    </ul>
+</div>
+</body>
+</html>

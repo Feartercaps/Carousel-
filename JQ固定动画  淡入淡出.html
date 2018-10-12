@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-3.0.0.js"></script>
+    <script>
+        $(function (){
+            var times;
+             $("img").each(function(index){
+                 //设置第一张显示
+                 /*true 非0 false 0*/
+                 if(!index){
+                     $(this).css("display","block");
+                     $(".banerlist").eq(index).css("backgroundColor","blue");
+                 }
+                 $(this).css("zIndex",$("img").length-1-index);
+             });
+            //鼠标进入block  停止
+            $(".block").mouseenter(function (){
+                clearInterval(times);
+            }).mouseleave(function (){
+                showTimes();
+            });
+            //鼠标进入每个小点
+            $(".banerlist").each(function (index){
+               $(this).mouseenter(function (){
+                   //鼠标进入的同时  让当前图片的zIndex属性 也得变成5！！！！！！！！！
+                   var img_zindex=parseInt($("img").eq(index).css("zIndex"));
+                   if(img_zindex!=5)
+                   {
+                       for(var i=0;i<$("img").length-1-img_zindex;i++)
+                       {
+                           $("img").each(function (){
+                               $(this).css("zIndex",parseInt($(this).css("zIndex"))+1);
+                               if($(this).css("zIndex")==$("img").length)
+                               {
+                                   $(this).css("zIndex",0);
+                               }
+                           });
+                       }
+                       //切换当前的图片显示
+                       $("img").fadeOut(1000);
+                       $("img").eq(index).fadeIn(1000);
+                       $(".banerlist").css("backgroundColor","");
+                       $(this).css("backgroundColor","blue");
+                   }
+               });
+            });
+            showTimes();
+            function showTimes(){
+                times=setInterval(function (){
+                    $("img").each(function (index){
+                        $(this).css("zIndex",parseInt($(this).css("zIndex"))+1);
+                        if($(this).css("zIndex")==$("img").length)
+                        {
+                            $(this).css("zIndex",0);
+                            $(this).fadeOut(1000);
+                        }
+                        if($(this).css("zIndex")==$("img").length-1)
+                        {
+                            $(this).fadeIn(1000);
+                            $(".banerlist").css("backgroundColor","");
+                            $(".banerlist").eq(index).css("backgroundColor","blue");
+                        }
+                    });
+                },2000);
+            }
+        });
+    </script>
+    <style>
+        .block{
+            width: 800px;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: none;
+        }
+        .banner{
+            position: absolute;
+            width: 100px;
+            left: 350px;
+            z-index: 10;
+            bottom: 0;
+        }
+        .banerlist{
+            width: 10px;
+            height: 10px;
+            border: 1px solid yellow;
+            border-radius: 50%;
+            display: inline-block;
+            transition:background-color 0.5s linear;
+        }
+    </style>
+</head>
+<body>
+<div class="block">
+    <img src="./image/visual_slide01.jpg" alt=""/>
+    <img src="./image/visual_slide02.jpg" alt=""/>
+    <img src="./image/visual_slide03.jpg" alt=""/>
+    <img src="./image/visual_slide04.jpg" alt=""/>
+    <img src="./image/visual_slide05.jpg" alt=""/>
+    <img src="./image/visual_slide06.jpg" alt=""/>
+    <div class="banner">
+       <div class="banerlist"></div>
+       <div class="banerlist"></div>
+       <div class="banerlist"></div>
+       <div class="banerlist"></div>
+       <div class="banerlist"></div>
+       <div class="banerlist"></div>
+    </div>
+</div>
+</body>
+</html>

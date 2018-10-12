@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-3.0.0.js"></script>
+    <script>
+      $(function (){
+         $(".li_info").each(function (){
+             $(this).mouseenter(function (){
+                 $(this).children("span").stop().fadeOut(500);
+                 $(this).stop().animate({
+                     "width":"900px"
+                 },500).siblings().stop().animate({
+                     "width":"100px"
+                 },500);
+             }).mouseleave(function (){
+                 $(this).children("span").stop().fadeIn(500);
+                 $(this).stop().animate({
+                     "width":"100px"
+                 },500);
+             });
+         });
+      });
+    </script>
+    <style>
+        .ul_info{
+            margin: 0;
+            padding: 0;
+        }
+        .li_info{
+            border: 1px solid silver;
+            width: 100px;
+            height: 400px;
+            float: left;
+            list-style: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .li_info>span{
+            position: absolute;
+            z-index: 1;
+            display: inline-block;
+            width: 100px;
+            height: 400px;
+            line-height: 400px;
+            text-align: center;
+            background-color: rgba(255, 165, 0, 0.34);
+            color: #2eff0d;
+        }
+        .li_info>img{
+            height: 400px;
+            width: 900px;
+        }
+    </style>
+</head>
+<body>
+<ul class="ul_info">
+    <li class="li_info">
+        <span>第一栏</span>
+        <img src="./image/visual_slide01.jpg"/>
+    </li>
+    <li class="li_info">
+        <span>第二栏</span>
+         <img src="./image/visual_slide02.jpg"/>
+    </li>
+    <li class="li_info">
+        <span>第三栏</span>
+         <img src="./image/visual_slide03.jpg"/>
+    </li>
+    <li class="li_info">
+        <span>第四栏</span>
+         <img src="./image/visual_slide04.jpg"/>
+    </li>
+    <li class="li_info">
+        <span>第五栏</span>
+         <img src="./image/visual_slide05.jpg"/>
+    </li>
+</ul>
+</body>
+</html>
